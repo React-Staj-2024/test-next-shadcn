@@ -1,9 +1,19 @@
-import { Button } from "@/components/ui/button";
+import { sql } from "@vercel/postgres";
 
-export default function Home() {
+export default async function Cart({
+  params,
+}: {
+  params: { user: string };
+}): Promise<JSX.Element> {
+  const { rows } = await sql`SELECT * from USERS`;
+
   return (
     <div>
-      <Button>Click Me</Button>
+      {rows.map((row) => (
+        <div key={row.id}>
+          {row.id} - {row.email}
+        </div>
+      ))}
     </div>
   );
 }
